@@ -1,7 +1,10 @@
 import { BannerIcons } from "@/lib/constants";
 import Image from "next/image";
+import type { ForwardRefExoticComponent, JSX } from "react";
+import { Button } from "../ui/button";
+import Link from "next/link";
 
-const Banner = () => {
+const Banner = (): JSX.Element => {
   return (
     <>
       <div className="w-full relative flex justify-end">
@@ -13,14 +16,17 @@ const Banner = () => {
           </div>
         </div>
         <div className="absolute bottom-8 left-8 w-[280px] h-auto p-6 bg-linear-to-br from-fuchsia-100/40 to-transparent backdrop-blur-sm rounded-3xl border border-neutral-300/50">
-          <h1 className="text-transparent bg-clip-text font-semibold text-4xl bg-linear-to-r from-pink-400 to-blue-400 via-fuchsia-400">Listen More</h1>
-          <p className="text-sm font-regular text-neutral-100">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sit similique itaque dolorum.</p>
+          <h1 className="text-transparent bg-clip-text font-semibold text-4xl bg-linear-to-r from-pink-400 via-fuchsia-200 to-blue-300">Lsten More</h1>
+          <p className="text-sm font-regular text-neutral-100 mb-4">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Sit similique itaque dolorum.</p>
+          <Link href={"/studio"}>
+            <Button variant={'ghost'} className={"cursor-pointer text-lg text-fuchsia-200 bg-white/20 hover:bg-white/5 hover:text-fuchsia-400 border border-white/30 transition-all"}>Studio</Button>
+          </Link>
         </div>
         {BannerIcons.map((icon, index) => {
-          const MusicIcon = icon.icon;
+          const MusicIcon: ForwardRefExoticComponent<any> = icon.icon;
           return (
-            <div key={index+1} className={`absolute ${icon.position} rounded-full p-2 bg-linear-to-br from-blue-300/30 to-fuchsia-300/20 backdrop-blur-sm border border-fuchsia-300/30 flex items-center justify-center`}>
-              <MusicIcon className="w-5 h-5 text-fuchsia-200"/>
+            <div key={index + 1} className={`absolute ${icon.position} rounded-full p-2 bg-linear-to-br from-blue-300/30 to-fuchsia-300/20 backdrop-blur-sm border border-fuchsia-300/30 flex items-center justify-center`}>
+              <MusicIcon className="w-5 h-5 text-fuchsia-200" />
             </div>
           );
         })}

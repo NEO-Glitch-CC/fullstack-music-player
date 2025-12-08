@@ -25,6 +25,12 @@ declare global {
     position: string;
     icon: ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>;
   }
+
+  type StudioSidebarMenu = {
+    title: string;
+    url: string;
+    icon: ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>;
+  }
 };
 
 export { };

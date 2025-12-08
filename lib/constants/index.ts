@@ -1,4 +1,4 @@
-import { Music, Music2, Music3, Music4 } from "lucide-react";
+import { Cog, Folder, HomeIcon, Music, Music2, Music3, Music4 } from "lucide-react";
 
 export const NavbarMenu = [
   {
@@ -39,5 +39,28 @@ export const BannerIcons: BannerIcons[] = [
   {
     position: "top-43 right-18",
     icon: Music4
+  },
+];
+
+export const StudioSidebarMenu: StudioSidebarMenu[] = [
+  {
+    title: "Studio",
+    url: "/",
+    icon: HomeIcon
+  },
+  {
+    title: "Songs",
+    url: "/",
+    icon: Music
+  },
+  {
+    title: "Playlists",
+    url: "/",
+    icon: Folder
+  },
+  {
+    title: "Settings",
+    url: "/",
+    icon: Cog
   },
 ]
