@@ -1,21 +1,14 @@
-// app/api/music/[artist]/route.ts
-import type { NextRequest } from "next/server";
-
-export async function GET(
-  request: Request,
-  { params }: { params: { artist: string } }
-): Promise<Response> {
+// app/api/music/route.ts
+export async function GET(request: Request) {
   try {
-    // Prefer query param `?artist=...` if provided, otherwise use path param
     const url = new URL(request.url);
     const qArtist = url.searchParams.get("artist");
-    const pathArtist = params.artist ?? null;
-    const artist = (qArtist && qArtist.trim()) || (pathArtist && decodeURIComponent(pathArtist)) || "coldplay";
+    const artist = (qArtist && qArtist.trim()) || "coldplay";
 
     const externalUrl = `https://www.theaudiodb.com/api/v1/json/123/search.php?s=${encodeURIComponent(
       artist
     )}`;
-    console.log("[api/music/[artist]] fetching external URL:", externalUrl, "artist:", artist);
+    console.log("[api/music] fetching external URL:", externalUrl, "artist:", artist);
     const res = await fetch(externalUrl);
 
     if (!res.ok) {

@@ -36,6 +36,28 @@ declare global {
     error: boolean;
     message: string
   }
+
+  type Artist = {
+    strArtist?: string;
+    strArtistThumb?: string;
+    strBiographyEN?: string;
+    strGenre?: string;
+    strStyle?: string;
+    intFormedYear?: string;
+    strWebsite?: string;
+    strFacebook?: string;
+    strTwitter?: string;
+    idArtist?: string;
+    strArtistAlternate?: string;
+    strArtistStripped?: string;
+    intBornYear?: string;
+    strDisbanded?: string;
+  };
+
+  type MusicApiResponse = {
+    error?: boolean;
+    data?: { artists?: Artist[] } | null;
+  } | null;
 };
 
 export { };
