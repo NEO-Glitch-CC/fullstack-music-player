@@ -13,7 +13,6 @@ const Studio = () => {
     setLoading(true);
     setError(null);
     try {
-      // Call the query-style API route which accepts ?artist=
       const res = await fetch(`/api/music?artist=${encodeURIComponent(artist)}`);
       if (!res.ok) {
         const text = await res.text();
@@ -31,9 +30,7 @@ const Studio = () => {
   };
 
   useEffect(() => {
-    // initial fetch
     fetchArtist(query);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -42,9 +39,8 @@ const Studio = () => {
     fetchArtist(query.trim());
   };
 
-  function renderBiography(bio?: string) {
+  const renderBiography = (bio?: string) => {
     if (!bio) return null;
-    // split paragraphs on double newlines
     return bio.split(/\n\n+/).map((para, i) => (
       <p key={i} className="mb-3 text-sm leading-relaxed">
         {para}
@@ -59,7 +55,7 @@ const Studio = () => {
       <div className="mx-auto max-w-5xl px-4">
         <header className="mb-8 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-lg bg-gradient-to-br from-sky-500 to-purple-600 flex items-center justify-center text-white font-bold">MP</div>
+            <div className="h-10 w-10 rounded-lg bg-linear-to-br from-sky-500 to-purple-600 flex items-center justify-center text-white font-bold">MP</div>
             <div>
               <h1 className="text-2xl font-extrabold">Music Player</h1>
               <p className="text-sm text-muted-foreground">Discover artists, read bios, explore music.</p>
@@ -102,7 +98,7 @@ const Studio = () => {
                     return (
                       <article className="studio-card glass overflow-hidden rounded-2xl p-6 shadow-xl">
                         <div className="md:flex md:items-start md:gap-6">
-                          <div className="flex-shrink-0">
+                          <div className="shrink-0">
                             {artist.strArtistThumb ? (
                               <Image
                                 src={artist.strArtistThumb}
