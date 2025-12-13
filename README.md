@@ -34,7 +34,7 @@ A modern, minimalist music player web application built with Next.js, featuring 
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/your-username/fullstack-music-player.git
+git clone https://github.com/[YOUR_USERNAME]/[YOUR_REPO].git
 cd fullstack-music-player
 ```
 
