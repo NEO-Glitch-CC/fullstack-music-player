@@ -1,36 +1,148 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Fullstack Music Player
+
+A modern, minimalist music player web application built with Next.js, featuring user authentication, music upload, playlist management, and a sleek audio player interface.
+
+## Features
+
+- 🔐 **Authentication**: Sign up and sign in with Better Auth
+- 🎵 **Music Upload**: Upload audio files with cover images to Supabase Storage
+- 📱 **Music Player**: Full-featured audio player with controls
+- 📋 **Playlist Management**: Create and manage playlists
+- 🎨 **Modern UI**: Clean, minimalist design with Tailwind CSS and Shadcn UI
+- 🔄 **Real-time Updates**: Zustand state management for seamless UX
+- 🗄️ **Database**: PostgreSQL with Drizzle ORM
+
+## Tech Stack
+
+- **Frontend**: Next.js 16, React 19, TypeScript
+- **Styling**: Tailwind CSS v4, Shadcn UI
+- **Authentication**: Supabase Auth
+- **Database**: PostgreSQL, Drizzle ORM
+- **Storage**: Supabase Storage
+- **State Management**: Zustand
+- **Icons**: Lucide React
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
+- Node.js 18+
+- PostgreSQL database (Supabase recommended)
+- Supabase project with Storage enabled
+
+### Installation
+
+1. Clone the repository:
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/[YOUR_USERNAME]/[YOUR_REPO].git
+cd fullstack-music-player
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
+```bash
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Set up environment variables:
+```bash
+cp .env.example .env.local
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Fill in your environment variables:
+```env
+DATABASE_URL="your_supabase_database_url"
+SUPABASE_URL="your_supabase_project_url"
+SUPABASE_KEY="your_supabase_anon_key"
+SUPABASE_SECRET_KEY="your_supabase_service_role_key"
+GOOGLE_CLIENT_ID="your_google_client_id" # Optional
+GOOGLE_CLIENT_SECRET="your_google_client_secret" # Optional
+```
 
-## Learn More
+4. Set up the database:
+```bash
+npm run db:push
+```
 
-To learn more about Next.js, take a look at the following resources:
+5. Run the development server:
+```bash
+npm run dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Open [http://localhost:3000](http://localhost:3000) to view the application.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Database Schema
 
-## Deploy on Vercel
+The application uses the following database tables:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `users`: User accounts
+- `songs`: Music tracks with metadata
+- `playlists`: User-created playlists
+- `playlist_songs`: Many-to-many relationship between playlists and songs
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Project Structure
+
+```
+├── app/                    # Next.js app directory
+│   ├── (auth)/            # Authentication pages
+│   ├── (main)/            # Protected pages
+│   ├── api/               # API routes
+│   └── globals.css        # Global styles
+├── components/            # Reusable components
+│   ├── ui/               # Shadcn UI components
+│   └── widgets/          # Custom widgets
+├── lib/                  # Utility libraries
+│   ├── drizzle/          # Database schema & client
+│   ├── stores/           # Zustand stores
+│   └── supabase/         # Supabase client
+├── hooks/                # Custom React hooks
+├── types/                # TypeScript type definitions
+└── public/               # Static assets
+```
+
+## Available Scripts
+
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run start` - Start production server
+- `npm run lint` - Run ESLint
+- `npm run db:generate` - Generate Drizzle migrations
+- `npm run db:push` - Push schema changes to database
+- `npm run db:migrate` - Run database migrations
+
+## Features Overview
+
+### Authentication
+- Email/password sign up and sign in
+- Google OAuth (optional)
+- Protected routes with middleware
+- Session management
+
+### Music Management
+- Upload audio files (MP3, WAV, etc.)
+- Upload cover images
+- View and manage uploaded songs
+- Delete songs
+
+### Playlist Management
+- Create custom playlists
+- Add/remove songs from playlists
+- View playlist contents
+
+### Audio Player
+- Play/pause controls
+- Volume control
+- Progress bar with seeking
+- Previous/next track navigation
+- Shuffle and repeat modes
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Run tests and linting
+5. Submit a pull request
+
+## License
+
+This project is licensed under the MIT License.

@@ -45,17 +45,17 @@ export const BannerIcons: BannerIcons[] = [
 export const StudioSidebarMenu: StudioSidebarMenu[] = [
   {
     title: "Studio",
-    url: "/",
+    url: "/studio",
     icon: HomeIcon
   },
   {
     title: "Songs",
-    url: "/",
+    url: "/songs",
     icon: Music
   },
   {
     title: "Playlists",
-    url: "/",
+    url: "/playlists",
     icon: Folder
   },
   {

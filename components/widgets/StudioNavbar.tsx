@@ -1,12 +1,24 @@
 "use client";
 
-import { Search, User2 } from "lucide-react";
+import { Search, User2, LogOut } from "lucide-react";
 import { Button } from "../ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { SidebarTrigger } from "../ui/sidebar";
+import { useAuthStore } from "@/lib/stores/auth-store";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 
 const StudioNavbar = () => {
+  const { user, logout } = useAuthStore();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    await authClient.signOut();
+    logout();
+    router.push("/sign-in");
+  };
+
   return (
     <div className="w-full p-2 flex items-center justify-between border-b border-b-accent">
       <SidebarTrigger variant={'outline'} size={'icon-sm'} />
@@ -39,11 +51,30 @@ const StudioNavbar = () => {
             </form>
           </PopoverContent>
         </Popover>
-        <Link href={"/"}>
-          <Button variant={'outline'} size={'icon-sm'}>
-            <User2 className="w-5 h-5 text-neutral-800"/>
-          </Button>
-        </Link>
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button variant={'outline'} size={'icon-sm'}>
+              <User2 className="w-5 h-5 text-neutral-800" />
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-48">
+            <div className="space-y-2">
+              <div className="px-2 py-1">
+                <p className="text-sm font-medium">{user?.fullName || user?.email}</p>
+                <p className="text-xs text-muted-foreground">{user?.email}</p>
+              </div>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={handleLogout}
+                className="w-full justify-start"
+              >
+                <LogOut className="w-4 h-4 mr-2" />
+                Logout
+              </Button>
+            </div>
+          </PopoverContent>
+        </Popover>
       </div>
     </div>
   );
