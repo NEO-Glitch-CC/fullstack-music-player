@@ -57,7 +57,7 @@ export default function SongsPage() {
     }
   };
 
-  const handlePlaySong = (song: any) => {
+  const handlePlaySong = (song: typeof songs[number]) => {
     if (currentSong?.id === song.id) {
       setIsPlaying(!isPlaying);
     } else {
