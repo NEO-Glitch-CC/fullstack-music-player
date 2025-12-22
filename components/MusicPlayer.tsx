@@ -30,8 +30,7 @@ export function MusicPlayer() {
     currentTime,
     setIsPlaying,
     setVolume,
-    setCurrentTime,
-    songs
+    setCurrentTime
   } = useMusicStore();
 
   useEffect(() => {

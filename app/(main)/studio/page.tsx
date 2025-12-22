@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const Studio = () => {
   const [query, setQuery] = useState<string>("Coldplay");
@@ -9,7 +9,7 @@ const Studio = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchArtist = async (artist: string) => {
+  const fetchArtist = useCallback(async (artist: string) => {
     setLoading(true);
     setError(null);
     try {
@@ -27,11 +27,11 @@ const Studio = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchArtist(query);
-  }, []);
+  }, [fetchArtist, query]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();

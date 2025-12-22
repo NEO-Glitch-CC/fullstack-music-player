@@ -1,47 +1,66 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { useAuthStore } from "@/lib/stores/auth-store";
 import { authClient } from "@/lib/auth-client";
+import { MailCheck } from "lucide-react";
 
 export default function SignUpPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const router = useRouter();
-  const { setUser } = useAuthStore();
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
+    setError(null);
 
     try {
-      const { data, error } = await authClient.signUp.email({
+      const { error } = await authClient.signUp.email({
         email,
         password,
         name: fullName,
       });
 
       if (error) {
-        console.error(error);
+        setError(error.message);
         return;
       }
 
-      setUser(data.user);
-      router.push("/studio");
-    } catch (error) {
-      console.error(error);
+      setIsSubmitted(true);
+    } catch (err) {
+      setError("An unexpected error occurred. Please try again.");
+      console.error(err);
     } finally {
       setIsLoading(false);
     }
   };
+
+  if (isSubmitted) {
+    return (
+      <Card className="w-full max-w-md">
+        <CardHeader className="text-center">
+          <MailCheck className="mx-auto h-12 w-12 text-green-500" />
+          <CardTitle className="mt-4 text-2xl">Confirm your email</CardTitle>
+          <CardDescription>
+            We&apos;ve sent a confirmation link to <strong>{email}</strong>. Please check your inbox (and spam folder) to complete the sign up process.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="text-center">
+            <p className="text-sm text-muted-foreground">
+                Already confirmed? <Link href="/sign-in" className="text-primary hover:underline">Sign in</Link>
+            </p>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <Card>
@@ -53,6 +72,7 @@ export default function SignUpPage() {
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
+          {error && <p className="text-sm text-red-500">{error}</p>}
           <div className="space-y-2">
             <Label htmlFor="fullName">Full Name</Label>
             <Input
@@ -61,6 +81,7 @@ export default function SignUpPage() {
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
               required
+              disabled={isLoading}
             />
           </div>
           <div className="space-y-2">
@@ -71,6 +92,7 @@ export default function SignUpPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
+              disabled={isLoading}
             />
           </div>
           <div className="space-y-2">
@@ -81,6 +103,7 @@ export default function SignUpPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              disabled={isLoading}
             />
           </div>
           <Button type="submit" className="w-full" disabled={isLoading}>

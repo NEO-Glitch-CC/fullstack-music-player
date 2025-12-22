@@ -32,15 +32,6 @@ export interface Playlist {
 	songs?: Song[];
 }
 
-export interface Song {
-	id: string;
-	title: string;
-	artist: string;
-	audioUrl: string;
-	duration: number;
-	coverUrl?: string;
-}
-
 export interface PlaylistState {
 	playlists: Playlist[];
 	currentPlaylist: Playlist | null;

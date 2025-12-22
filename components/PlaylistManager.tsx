@@ -1,9 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Plus, Trash2, Music } from "lucide-react";
@@ -12,25 +11,19 @@ import { useMusicStore } from "@/lib/stores/music-store";
 import { useAuthStore } from "@/lib/stores/auth-store";
 import { createClient } from "@/lib/utils/supabase/supabase.client";
 import { toast } from "sonner";
+import { Song } from "@/types/interfaces";
 
 export function PlaylistManager() {
   const supabase = createClient();
   
   const [newPlaylistName, setNewPlaylistName] = useState("");
   const [isCreating, setIsCreating] = useState(false);
-  const [selectedPlaylist, setSelectedPlaylist] = useState<string | null>(null);
 
-  const { playlists, addPlaylist, removePlaylist, addSongToPlaylist, removeSongFromPlaylist } = usePlaylistStore();
+  const { playlists, addPlaylist, removePlaylist, addSongToPlaylist, removeSongFromPlaylist, setPlaylists } = usePlaylistStore();
   const { songs } = useMusicStore();
   const { user } = useAuthStore();
 
-  useEffect(() => {
-    if (user) {
-      loadPlaylists();
-    }
-  }, [user]);
-
-  const loadPlaylists = async () => {
+  const loadPlaylists = useCallback(async () => {
     if (!user) return;
 
     const { data, error } = await supabase
@@ -48,14 +41,19 @@ export function PlaylistManager() {
       return;
     }
 
-    // Transform data
     const transformedPlaylists = data.map(playlist => ({
       ...playlist,
-      songs: playlist.playlist_songs?.map((ps: any) => ps.songs) || []
+      songs: playlist.playlist_songs?.map((ps: { songs: Song }) => ps.songs) || []
     }));
 
-    // Update store - you'll need to implement setPlaylists in your store
-  };
+    setPlaylists(transformedPlaylists);
+  }, [user, setPlaylists, supabase]);
+
+  useEffect(() => {
+    if (user) {
+      loadPlaylists();
+    }
+  }, [user, loadPlaylists]);
 
   const handleCreatePlaylist = async () => {
     if (!newPlaylistName.trim() || !user) return;
@@ -217,7 +215,7 @@ export function PlaylistManager() {
 
                 {/* Playlist Songs */}
                 <div className="space-y-1">
-                  {playlist.songs?.slice(0, 3).map((song: any) => (
+                  {playlist.songs?.slice(0, 3).map((song: Song) => (
                     <div key={song.id} className="flex items-center justify-between text-sm">
                       <span className="truncate">{song.title}</span>
                       <Button

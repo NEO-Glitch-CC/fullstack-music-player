@@ -3,6 +3,7 @@ import Image from "next/image";
 import type { ForwardRefExoticComponent, JSX } from "react";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import { LucideProps } from "lucide-react";
 
 const Banner = (): JSX.Element => {
   return (
@@ -18,7 +19,7 @@ const Banner = (): JSX.Element => {
             </div>
           </div>
           {BannerIcons.map((icon, index) => {
-            const MusicIcon: ForwardRefExoticComponent<any> = icon.icon;
+            const MusicIcon: ForwardRefExoticComponent<LucideProps> = icon.icon;
             return (
               <div key={index + 1} className={`absolute ${icon.position} rounded-full p-2 bg-linear-to-br from-blue-300/30 to-fuchsia-300/20 backdrop-blur-sm border border-fuchsia-300/30 flex items-center justify-center`}>
                 <MusicIcon className="w-5 h-5 text-fuchsia-200" />

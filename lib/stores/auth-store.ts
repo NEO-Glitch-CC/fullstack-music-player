@@ -5,7 +5,7 @@ import { AuthState } from '@/types/interfaces';
 
 export const useAuthStore = create<AuthState>()(
   persist(
-    (set, get) => ({
+    (set) => ({
       user: null,
       isLoading: true,
       setUser: (user) => set({ user }),

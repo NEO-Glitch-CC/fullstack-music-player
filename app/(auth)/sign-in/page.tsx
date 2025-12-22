@@ -32,8 +32,15 @@ export default function SignInPage() {
         return;
       }
 
-      setUser(data.user);
-      router.push("/studio");
+      if (data.user) {
+        setUser({
+          id: data.user.id,
+          email: data.user.email || '',
+          fullName: data.user.user_metadata?.full_name,
+          avatarUrl: data.user.user_metadata?.avatar_url,
+        });
+        router.push("/studio");
+      }
     } catch (error) {
       console.error(error);
     } finally {
@@ -77,7 +84,7 @@ export default function SignInPage() {
         </form>
         <div className="mt-4 text-center">
           <p className="text-sm text-muted-foreground">
-            Don't have an account?{" "}
+            Don&apos;t have an account?{" "}
             <Link href="/sign-up" className="text-primary hover:underline">
               Sign up
             </Link>

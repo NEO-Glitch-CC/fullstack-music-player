@@ -7,7 +7,6 @@ import { SidebarTrigger } from "../ui/sidebar";
 import { useAuthStore } from "@/lib/stores/auth-store";
 import { authClient } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 
 const StudioNavbar = () => {
   const { user, logout } = useAuthStore();

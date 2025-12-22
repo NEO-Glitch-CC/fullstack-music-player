@@ -2,7 +2,6 @@ import React from 'react'
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '../ui/sidebar'
 import { StudioSidebarMenu } from '@/lib/constants'
 import Link from 'next/link'
-import { LucideProps } from 'lucide-react'
 
 const AppSidebar = () => {
   return (

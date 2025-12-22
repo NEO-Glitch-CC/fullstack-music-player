@@ -1,29 +1,24 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Trash2, Play, Pause, Upload } from "lucide-react";
 import { useMusicStore } from "@/lib/stores/music-store";
 import { useAuthStore } from "@/lib/stores/auth-store";
-import { supabase } from "@/lib/utils/supabase/supabase.server";
+import { createClient } from "@/lib/utils/supabase/supabase.client";
 import { UploadMusic } from "@/components/UploadMusic";
 import { toast } from "sonner";
 import Image from "next/image";
 
 export default function SongsPage() {
+  const supabase = createClient();
   const [showUpload, setShowUpload] = useState(false);
   const { songs, setSongs, removeSong, setCurrentSong, setIsPlaying, currentSong, isPlaying } = useMusicStore();
   const { user } = useAuthStore();
 
-  useEffect(() => {
-    if (user) {
-      loadSongs();
-    }
-  }, [user]);
-
-  const loadSongs = async () => {
+  const loadSongs = useCallback(async () => {
     if (!user) return;
 
     const { data, error } = await supabase
@@ -38,7 +33,13 @@ export default function SongsPage() {
     }
 
     setSongs(data);
-  };
+  }, [user, setSongs, supabase]);
+
+  useEffect(() => {
+    if (user) {
+      loadSongs();
+    }
+  }, [user, loadSongs]);
 
   const handleDeleteSong = async (songId: string) => {
     try {

@@ -1,3 +1,4 @@
+import { User } from "@supabase/supabase-js";
 import { createClient } from "./utils/supabase/supabase.client";
 
 const supabase = createClient();
@@ -44,7 +45,7 @@ export const authClient = {
     const { data, error } = await supabase.auth.getSession();
     return { data: data.session ? { user: data.session.user } : null, error };
   },
-  onAuthStateChange: (callback: (user: any) => void) => {
+  onAuthStateChange: (callback: (user: User | null) => void) => {
     return supabase.auth.onAuthStateChange((event, session) => {
       callback(session?.user || null);
     });
