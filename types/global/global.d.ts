@@ -58,6 +58,13 @@ declare global {
     error?: boolean;
     data?: { artists?: Artist[] } | null;
   } | null;
+
+  type ButtonProps<T extends React.ElementType> = {
+    as?: T;
+    variant: 'primary' | 'dark' | 'secondary';
+    size: 'lg' | 'md';
+    className?: string;
+  } & Omit<React.ComponentPropsWithoutRef<T>, 'as' | 'variant' | 'size' | 'className'>;
 };
 
 export { };

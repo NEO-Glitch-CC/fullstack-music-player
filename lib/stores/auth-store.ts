@@ -10,6 +10,8 @@ export const useAuthStore = create<AuthState>()(
       isLoading: true,
       setUser: (user) => set({ user }),
       setLoading: (loading) => set({ isLoading: loading }),
+      // Fungsi baru untuk membersihkan state saja
+      clearAuth: () => set({ user: null, isLoading: false }), 
       logout: async () => {
         await authClient.signOut();
         set({ user: null });
@@ -31,8 +33,9 @@ export const useAuthStore = create<AuthState>()(
         });
 
         // Listen for auth changes
-        authClient.onAuthStateChange((user) => {
-          if (user) {
+        authClient.onAuthStateChange((_event, session) => {
+          if (session?.user) {
+            const user = session.user;
             set({
               user: {
                 id: user.id,

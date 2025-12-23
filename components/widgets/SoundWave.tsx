@@ -1,17 +1,25 @@
 'use client';
+
 import { motion } from 'framer-motion';
 import { useMemo } from 'react';
 
-const SoundWave = ({ barCount = 50, barWidth = 4, color = '#ffffff' }) => {
+const SoundWave = ({ barCount = 100, barWidth = 12, color = '#ffffff' }) => {
   const bars = useMemo(() => Array(barCount).fill(0), [barCount]);
 
-  // Generate a smoothly varying random height
-  const getRandomHeight = (i: number) => {
-    // Use a combination of sine waves to create a more organic feel
-    const slowWave = Math.sin(i * 0.1) * 50 + 50;
-    const fastWave = Math.sin(i * 0.5) * 20 + 20;
-    return slowWave + fastWave + 10; // base height
-  };
+  const animationProps = useMemo(() => {
+    return bars.map((_, i) => {
+      const slowWave = Math.sin(i * 0.1) * 50 + 50;
+      const fastWave = Math.sin(i * 0.5) * 20 + 20;
+      const baseHeight = slowWave + fastWave + 10;
+
+      const nextHeight = Math.sin((i + barCount / 2) * 0.1) * 50 + 50 + Math.sin((i + barCount / 2) * 0.5) * 20 + 20 + 10;
+
+      return {
+        heights: [`${baseHeight}px`, `${nextHeight}px`, `${baseHeight}px`],
+        duration: 2 + Math.random() * 2,
+      };
+    });
+  }, [barCount, bars]);
 
   return (
     <div className="flex items-end justify-center w-full h-full gap-[2px]">
@@ -25,17 +33,13 @@ const SoundWave = ({ barCount = 50, barWidth = 4, color = '#ffffff' }) => {
           }}
           initial={{ height: '5px' }}
           animate={{
-            height: [
-              `${getRandomHeight(i)}px`,
-              `${getRandomHeight(i + barCount / 2)}px`,
-              `${getRandomHeight(i)}px`,
-            ],
+            height: animationProps[i].heights,
           }}
           transition={{
-            duration: 4 + Math.random() * 2, // Vary duration for each bar
+            duration: animationProps[i].duration,
             repeat: Infinity,
             ease: 'easeInOut',
-            delay: i * 0.02, // Stagger the animation start
+            delay: i * 0.02,
           }}
         />
       ))}

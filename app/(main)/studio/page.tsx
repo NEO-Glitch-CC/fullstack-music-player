@@ -2,42 +2,21 @@
 
 import { HeartIcon } from "lucide-react";
 import Image from "next/image";
+import StudioNavbar from "@/components/widgets/StudioNavbar";
 
 const Studio = () => {
   return (
     <main className="w-full h-full">
       {/* === Header Section === */}
-      <header className="relative overflow-hidden w-full h-52 sm:h-72 md:h-80 flex items-center justify-between">
+      <header className="relative overflow-hidden w-full h-100 flex items-center justify-between">
         <Image
-          src={'/images/studio-background-2.jpg'}
+          src={'/images/studio-background-3.jpg'}
           alt="Studio Background"
           layout="fill"
           objectFit="cover"
           className="absolute inset-0"
         />
-        {/* Decorative Sidebar in Header - Hidden on mobile */}
-        <div className="absolute z-5 w-full h-full bottom-0 bg-transparent hidden md:grid grid-cols-10">
-          <div className="col-span-8 bg-transparent"></div>
-          <div className="col-span-2">
-            <div className="w-full h-auto flex flex-col gap-0.5">
-              {Array.from({ length: 16 }).map((_, i) => (
-                <div
-                  key={i}
-                  className={`w-full`}
-                  style={{
-                    height: `${i ** 1.2 + 1}px`,
-                    backgroundColor: `rgba(255, 255, 255, ${0 + (i ** 1.2) / 22})`,
-                  }}
-                ></div>
-              ))}
-            </div>
-            <div className="h-full bg-white px-4 py-2">
-              <h1 className="text-2xl lg:text-4xl text-neutral-800 font-thin">
-                Lorem Ipsum
-              </h1>
-            </div>
-          </div>
-        </div>
+        <StudioNavbar/>
       </header>
 
       {/* === Main Content Section === */}

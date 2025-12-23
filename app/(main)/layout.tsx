@@ -1,6 +1,5 @@
 import { SidebarProvider } from "@/components/ui/sidebar";
 import AppSidebar from "@/components/widgets/AppSidebar";
-import { StudioNavbar } from "@/components/widgets/StudioNavbar";
 import React from "react";
 import { MusicPlayer } from "@/components/MusicPlayer";
 
@@ -9,7 +8,6 @@ const layout = ({ children }: { children: React.ReactNode }) => {
     <SidebarProvider>
       <AppSidebar />
       <main className="min-h-screen w-full relative">
-        <StudioNavbar />
         <div className="pb-32 relative overflow-hidden">
           {children}
         </div>

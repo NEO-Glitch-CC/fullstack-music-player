@@ -60,5 +60,16 @@ export interface AuthState {
 }
 
 export interface UploadMusicProps {
-  onUploadComplete?: () => void;
+	onUploadComplete?: () => void;
+}
+
+export interface FeatureCardProps {
+	icon: React.ReactNode;
+	title: string;
+	description: string;
+}
+
+export interface StepProps {
+	number: string | number;
+	title: string;
 }

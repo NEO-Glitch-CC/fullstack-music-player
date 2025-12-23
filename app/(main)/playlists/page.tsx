@@ -45,7 +45,8 @@ export default function PlaylistsPage() {
     if (user) {
       loadPlaylists();
     }
-  }, [user, loadPlaylists]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   const handleDeletePlaylist = async (playlistId: string) => {
     const { error } = await supabase.from('playlists').delete().eq('id', playlistId);

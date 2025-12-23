@@ -1,10 +1,10 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Trash2, Play, Pause, Upload } from "lucide-react";
+import { Trash2, Play, Pause } from "lucide-react";
 import { useMusicStore } from "@/lib/stores/music-store";
 import { useAuthStore } from "@/lib/stores/auth-store";
 import { createClient } from "@/lib/utils/supabase/supabase.client";
