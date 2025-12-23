@@ -20,36 +20,66 @@ const StudioNavbar = () => {
 
   return (
     <div className="w-full p-2 flex items-center justify-between border-b border-b-neutral-200">
-      <SidebarTrigger variant={'outline'} size={'lg'} />
+      <div className="flex items-center justify-start gap-2">
+        <SidebarTrigger variant={'outline'} size={'lg'} />
+        <div className="w-px mx-2 h-10 bg-neutral-200" />
+        <div className="flex items-center justify-start">
+          <span className="text-md space-x-2 font-regular text-neutral-500">
+            <span>MENU</span>
+            <span>/</span>
+            <span className="text-neutral-800 font-medium">Studio</span>
+          </span>
+        </div>
+      </div>
       <div className="flex items-center gap-2">
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button variant={'outline'} size={'icon-lg'}>
-              <Search className="w-7 h-7 text-neutral-800" />
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="min-w-sm me-2">
-            <form className="space-y-2" onSubmit={(e) => e.preventDefault()}>
-              <div className="">
-                <h3 className="text-lg font-medium text-neutrl-800">Search</h3>
-                <p className="text-sm text-neutral-600">Search something you want to see or listen.</p>
-              </div>
-              <div className="flex items-center gap-2">
-                <input
-                  aria-label="Search songs, artists, playlists"
-                  placeholder="Search music..."
-                  className="h-9 w-full   border px-3 text-sm outline-none placeholder:text-muted-foreground/60"
-                />
-                <Button
-                  variant={'outline'}
-                  className=""
-                >
-                  <Search className="w-6 h-6 text-neutral-600" />
-                </Button>
-              </div>
-            </form>
-          </PopoverContent>
-        </Popover>
+        <div className="hidden sm:flex">
+          <form className="space-y-2" onSubmit={(e) => e.preventDefault()}>
+            <div className="flex items-center gap-2">
+              <input
+                aria-label="Search songs, artists, playlists"
+                placeholder="Search music..."
+                className="h-10 w-100 border px-3 text-sm outline-none placeholder:text-muted-foreground/60"
+              />
+              <Button
+                variant={'outline'}
+                size={'icon-lg'}
+              >
+                <Search className="w-7 h-7 text-neutral-600" />
+              </Button>
+            </div>
+          </form>
+        </div>
+        <div className="sm:hidden">
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant={'outline'} size={'icon-lg'}>
+                <Search className="w-7 h-7 text-neutral-800" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="min-w-sm me-2">
+              <form className="space-y-2" onSubmit={(e) => e.preventDefault()}>
+                <div className="">
+                  <h3 className="text-lg font-medium text-neutrl-800">Search</h3>
+                  <p className="text-sm text-neutral-600">Search something you want to see or listen.</p>
+                </div>
+                <div className="flex items-center gap-2">
+                  <input
+                    aria-label="Search songs, artists, playlists"
+                    placeholder="Search music..."
+                    className="h-9 w-full   border px-3 text-sm outline-none placeholder:text-muted-foreground/60"
+                  />
+                  <Button
+                    variant={'outline'}
+                    className=""
+                  >
+                    <Search className="w-6 h-6 text-neutral-600" />
+                  </Button>
+                </div>
+              </form>
+            </PopoverContent>
+          </Popover>
+        </div>
+        <div className="w-px mx-2 h-10 bg-neutral-200" />
         <Popover>
           <PopoverTrigger asChild>
             <Button variant={'outline'} size={'icon-lg'}>
