@@ -213,7 +213,6 @@ export function PlaylistManager() {
                   </DialogContent>
                 </Dialog>
 
-                {/* Playlist Songs */}
                 <div className="space-y-1">
                   {playlist.songs?.slice(0, 3).map((song: Song) => (
                     <div key={song.id} className="flex items-center justify-between text-sm">
