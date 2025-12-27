@@ -1,4 +1,10 @@
 import * as Sentry from "@sentry/nextjs";
+
+// Only allow in development
+if (process.env.NODE_ENV === 'production') {
+  throw new Error('This example endpoint is disabled in production');
+}
+
 export const dynamic = "force-dynamic";
 
 class SentryExampleAPIError extends Error {
