@@ -42,7 +42,7 @@ export default function StudioNavbar() {
           <div />
           <div className="flex items-center gap-4">
             <DrawerTrigger className="flex items-center gap-2 cursor-pointer">
-              <Avatar className="">
+              <Avatar>
                 <AvatarImage src={user?.avatarUrl} />
                 <AvatarFallback>{user?.email?.[0].toUpperCase()}</AvatarFallback>
               </Avatar>
