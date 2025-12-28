@@ -30,7 +30,7 @@ export default function PlaylistsPage() {
       console.error('Error fetching playlists:', error);
       toast.error('Failed to load playlists.');
     } else {
-      setPlaylists(data as any);
+      setPlaylists(data.map(p => ({ ...p, songs: [] })));
     }
     setLoading(false);
   }, [user, supabase]);
@@ -79,13 +79,12 @@ export default function PlaylistsPage() {
               <Card key={playlist.id} className="group relative">
                 <CardHeader>
                   <CardTitle className="truncate">{playlist.name}</CardTitle>
-                  {/* Removed CardDescription */}
                 </CardHeader>
                 <CardContent>
                   <div className="flex items-center justify-between text-sm text-muted-foreground">
                     <div className='flex items-center'>
                         <ListMusic className="w-4 h-4 mr-2"/>
-                        <span>0 songs</span> { /* Placeholder */}
+                        <span>0 songs</span>
                     </div>
                     <Button 
                         variant='ghost' 
