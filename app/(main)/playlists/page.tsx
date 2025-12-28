@@ -30,8 +30,7 @@ export default function PlaylistsPage() {
       console.error('Error fetching playlists:', error);
       toast.error('Failed to load playlists.');
     } else {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      setPlaylists(data as any);
+      setPlaylists(data.map(p => ({ ...p, songs: [] })));
     }
     setLoading(false);
   }, [user, supabase]);
