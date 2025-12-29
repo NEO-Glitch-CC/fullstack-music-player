@@ -32,3 +32,10 @@ export const playlistSongs = pgTable('playlist_songs', {
   songId: uuid('song_id').notNull().references(() => songs.id),
   createdAt: timestamp('created_at').defaultNow(),
 });
+
+export const listeningHistory = pgTable('listening_history', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  userId: uuid('user_id').notNull().references(() => users.id),
+  songId: uuid('song_id').notNull().references(() => songs.id),
+  playedAt: timestamp('played_at').defaultNow(),
+});
