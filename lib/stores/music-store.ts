@@ -43,20 +43,17 @@ export const useMusicStore = create<MusicStore>((set, get) => ({
   })),
 
   // Playback control actions
-  setCurrentSong: async (song: Song | null) => {
+  setCurrentSong: (song: Song | null) => {
     set({ currentSong: song });
     if (song) {
       // Track play when song is set
       const user = useAuthStore.getState().user;
       if (user) {
-        try {
-          await supabase.from('listening_history').insert({
-            user_id: user.id,
-            song_id: song.id,
-          });
-        } catch (error) {
-          console.error('Error tracking play:', error);
-        }
+        // Fire-and-forget - don't block UI
+        supabase.from('listening_history').insert({
+          user_id: user.id,
+          song_id: song.id,
+        }).then(null, (error) => console.error('Error tracking play:', error));
       }
     }
   },
