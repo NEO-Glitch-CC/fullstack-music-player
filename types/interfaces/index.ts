@@ -117,3 +117,51 @@ export interface EditPlaylistProps {
 	onOpenChange: (open: boolean) => void;
 	onEditComplete?: () => void;
 }
+
+export interface SupabaseSong {
+	id: string;
+	title: string;
+	artist: string;
+	audio_url: string;
+	cover_url: string | null;
+	duration: number;
+	uploaded_by: string;
+	created_at: string;
+}
+
+export interface MusicHistoryData {
+	song_id: string;
+	songs: SupabaseSong | null;
+}
+
+export interface SongCount {
+	song: SupabaseSong;
+	count: number;
+}
+
+export interface PlaylistWithSongs {
+	id: string
+	name: string
+	userId: string
+	createdAt: string
+	songs: Song[]
+}
+
+export interface PlaylistSongResponse {
+	song_id: string;
+	songs: {
+		id: string;
+		title: string;
+		artist: string;
+		audio_url: string;
+		cover_url: string | null;
+		duration: number;
+		uploaded_by: string;
+		created_at: string;
+	} | null;
+}
+
+export interface SignedUrlResult {
+	data: { signedUrl: string } | null;
+	error: Error | null;
+}

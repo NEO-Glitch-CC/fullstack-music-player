@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { HeartIcon } from "lucide-react";
 import { createClient } from '@/lib/utils/supabase/supabase.client';
 import { useAuthStore } from '@/lib/stores/auth-store';
-import { Song } from '@/types/interfaces';
+import { MusicHistoryData, Song, SongCount } from '@/types/interfaces';
 import Image from 'next/image';
 
 const Studio = () => {
@@ -18,12 +18,11 @@ const Studio = () => {
 
     setLoading(true);
     try {
-      // Get top 10 songs by play count for the user
       const { data: historyData, error } = await supabase
         .from('listening_history')
         .select(`
           song_id,
-          songs (
+          songs!inner (
             id,
             title,
             artist,
@@ -39,9 +38,8 @@ const Studio = () => {
 
       if (error) throw error;
 
-      // Count plays per song
-      const songCounts: { [key: string]: { song: any; count: number } } = {};
-      historyData.forEach((item: any) => {
+      const songCounts: { [key: string]: SongCount } = {};
+      (historyData as unknown as MusicHistoryData[]).forEach((item) => {
         if (item.songs) {
           const songId = item.song_id;
           if (songCounts[songId]) {
@@ -56,18 +54,18 @@ const Studio = () => {
       const sortedSongs = Object.values(songCounts)
         .sort((a, b) => b.count - a.count)
         .slice(0, 10)
-        .map((item: any) => {
+        .map((item: SongCount) => {
           const song = item.song;
           return {
             id: song.id,
             title: song.title,
             artist: song.artist,
-            audioUrl: song.audio_url,
+            audioUrl: '', // Will be set later if needed
             coverUrl: song.cover_url,
             duration: song.duration,
             uploadedBy: song.uploaded_by,
             createdAt: song.created_at,
-          };
+          } as Song;
         });
 
       // Get signed URLs for covers
@@ -77,9 +75,13 @@ const Studio = () => {
 
           let signedCoverUrl: string | null = null;
           if (song.coverUrl) {
-            const { data, error } = await supabase.storage.from('cover').createSignedUrl(song.coverUrl, 3600);
-            console.log('Cover signed URL result:', data, 'Error:', error);
-            signedCoverUrl = data?.signedUrl || null;
+            try {
+              const result = await supabase.storage.from('cover').createSignedUrl(song.coverUrl, 3600);
+              signedCoverUrl = result.data?.signedUrl || null;
+              console.log('Cover signed URL result:', result);
+            } catch (error) {
+              console.error('Error creating cover signed URL:', error);
+            }
           }
           return { ...song, coverUrl: signedCoverUrl };
         })
