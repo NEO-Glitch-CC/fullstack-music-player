@@ -17,11 +17,18 @@ export const useAuthStore = create<AuthState>()(
         set({ user: null });
       },
       initialize: () => {
-        const mapUser = (supabaseUser: any) => ({
-          id: supabaseUser.id,
-          email: supabaseUser.email || '',
-          fullName: supabaseUser.user_metadata?.full_name,
-          avatarUrl: supabaseUser.user_metadata?.avatar_url,
+        const mapUser = (supabaseUser: {
+          id: string;
+          email?: string;
+          user_metadata?: {
+            full_name?: string;
+            avatar_url?: string;
+          };
+        } | null) => ({
+          id: supabaseUser?.id || '',
+          email: supabaseUser?.email || '',
+          fullName: supabaseUser?.user_metadata?.full_name,
+          avatarUrl: supabaseUser?.user_metadata?.avatar_url,
         });
 
         // Check initial session

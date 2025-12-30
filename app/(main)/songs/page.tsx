@@ -10,7 +10,7 @@ import { useAuthStore } from "@/lib/stores/auth-store";
 import { createClient } from "@/lib/utils/supabase/supabase.client";
 import { toast } from "sonner";
 import Image from "next/image";
-import { LoadPlaylistToDropdown, Song } from "@/types/interfaces";
+import { LoadPlaylistToDropdown, Song, SupabaseSong } from "@/types/interfaces";
 import { CreatePlaylistDrawer } from '@/components/widgets/CreatePlaylistDrawer';
 import { Separator } from "@/components/ui/separator";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
@@ -93,8 +93,10 @@ export default function SongsPage() {
       return;
     }
 
+    if (!songData) return;
+
     const transformedSongs: Song[] = await Promise.all(
-      songData.map(async (song) => {
+      (songData as SupabaseSong[]).map(async (song) => {
         console.log('Processing song:', song.title, 'Audio URL:', song.audio_url);
 
         const { data: signedUrlData, error: audioError } = await supabase.storage

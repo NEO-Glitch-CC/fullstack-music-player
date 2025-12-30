@@ -7,8 +7,7 @@ import { MusicPlayer } from "@/components/MusicPlayer";
 import { useIsMobile } from "@/hooks/use-mobile";
 import NavbarMobile from "@/components/widgets/NavbarMobile";
 
-const layout = ({ children }: { children: React.ReactNode }) => {
-
+const Layout = ({ children }: { children: React.ReactNode }) => {
   const isMobile = useIsMobile();
 
   return (

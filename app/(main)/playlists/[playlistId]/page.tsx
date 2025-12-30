@@ -4,7 +4,7 @@ import { use, useEffect, useState, useCallback } from 'react'
 import { createClient } from '@/lib/utils/supabase/supabase.client'
 import { useAuthStore } from '@/lib/stores/auth-store'
 import { useMusicStore } from '@/lib/stores/music-store'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
@@ -12,15 +12,7 @@ import { Play, Pause, Trash2, ArrowLeft, Music } from 'lucide-react'
 import { toast } from 'sonner'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
-import { Song } from '@/types/interfaces'
-
-interface PlaylistWithSongs {
-  id: string
-  name: string
-  userId: string
-  createdAt: string
-  songs: Song[]
-}
+import { PlaylistSongResponse, PlaylistWithSongs, SignedUrlResult, Song } from '@/types/interfaces'
 
 const Page = ({
   params,
@@ -80,22 +72,32 @@ const Page = ({
         return
       }
 
-      // Create signed URLs for songs
+      if (!playlistSongsData) {
+        setPlaylist({
+          id: playlistData.id,
+          name: playlistData.name,
+          userId: playlistData.user_id,
+          createdAt: playlistData.created_at,
+          songs: [],
+        })
+        return
+      }
+
       const songsWithSignedUrls: Song[] = (await Promise.all(
-        playlistSongsData.map(async (item: any) => {
+        (playlistSongsData as unknown as PlaylistSongResponse[]).map(async (item) => {
           const song = item.songs
           if (!song) return null
 
           console.log('Processing playlist song:', song.title, 'Audio URL:', song.audio_url)
 
-          let audioSignedUrl = { signedUrl: '' }
-          let coverSignedUrl = { data: null }
+          let audioSignedUrl: SignedUrlResult = { data: null, error: null }
+          let coverSignedUrl: SignedUrlResult = { data: null, error: null }
 
           try {
-            const audioResult = await supabase.storage
+            const audioResult: SignedUrlResult = await supabase.storage
               .from('audio')
               .createSignedUrl(song.audio_url, 3600)
-            audioSignedUrl = audioResult.data || { signedUrl: '' }
+            audioSignedUrl = audioResult
             console.log('Audio signed URL result:', audioResult)
           } catch (error) {
             console.error('Error creating audio signed URL:', error)
@@ -103,7 +105,7 @@ const Page = ({
 
           if (song.cover_url) {
             try {
-              const coverResult = await supabase.storage
+              const coverResult: SignedUrlResult = await supabase.storage
                 .from('cover')
                 .createSignedUrl(song.cover_url, 3600)
               coverSignedUrl = coverResult
@@ -117,8 +119,8 @@ const Page = ({
             id: song.id,
             title: song.title,
             artist: song.artist,
-            audioUrl: audioSignedUrl.signedUrl || '',
-            coverUrl: coverSignedUrl?.data?.signedUrl || null,
+            audioUrl: audioSignedUrl.data?.signedUrl || '',
+            coverUrl: coverSignedUrl.data?.signedUrl || null,
             duration: song.duration,
             uploadedBy: song.uploaded_by,
             createdAt: song.created_at,
