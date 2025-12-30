@@ -7,9 +7,7 @@ import { MusicPlayer } from "@/components/MusicPlayer";
 import { useIsMobile } from "@/hooks/use-mobile";
 import NavbarMobile from "@/components/widgets/NavbarMobile";
 
-const layout = ({ children }: { children: React.ReactNode }) => {
-
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+const Layout = ({ children }: { children: React.ReactNode }) => {
   const isMobile = useIsMobile();
 
   return (
